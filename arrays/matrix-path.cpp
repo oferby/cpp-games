@@ -1,3 +1,9 @@
+/*
+    https://www.techgig.com/practice/question/matrix-and-paths/TWw1MURjNHVVbm9NZ3c4SWoxUXlZVERObS8zK3l2R25RVW81ZUx0WFlzZHZyZjIvTjdQanR2TlpJZUNJNUVWQw==/1?utm_source=TG_batch&utm_medium=email&utm_campaign=practice_2021-04-20
+
+    input to use: 3 3 1 1 0 1 0 1 1 1 1 2 2
+*/
+
 #include<iostream>
 
 using namespace std;
@@ -5,19 +11,20 @@ using namespace std;
 // width first
 void func(int *arr, int x, int y, 
     int dx, int dy, 
-    int *v, int currX, int currY, int *steps) {
+    int *v, int currX, int currY, int steps) {
 
     int (*arr1)[y] = (int(*)[y]) arr;
     int (*visited)[y] = (int(*)[y]) v;
 
     int tovisit = 0;
-    (*steps)++;
+    
+    steps++;
 
     // check up
     if (currX - 1 >= 0) {
         if (arr1[currX-1][currY] == 1) {
-            if (visited[currX-1][currY] > *steps) {
-                visited[currX-1][currY] = *steps;
+            if (visited[currX-1][currY] > steps) {
+                visited[currX-1][currY] = steps;
                 tovisit = tovisit + (1 << 3);
             }
         } else {
@@ -30,8 +37,8 @@ void func(int *arr, int x, int y,
     // check right
     if (currY + 1 <= y) {
         if (arr1[currX][currY+1]==1) {
-            if (visited[currX][currY+1] > *steps) {
-                visited[currX][currY+1] = *steps;
+            if (visited[currX][currY+1] > steps) {
+                visited[currX][currY+1] = steps;
                 tovisit = tovisit + (1 << 2);
             }
         } else {
@@ -42,8 +49,8 @@ void func(int *arr, int x, int y,
     // check down
     if (currX + 1 <= x) {
         if (arr1[currX+1][currY] == 1) {
-            if (visited[currX+1][currY] > *steps) {
-                visited[currX+1][currY] = *steps;
+            if (visited[currX+1][currY] > steps) {
+                visited[currX+1][currY] = steps;
                 tovisit = tovisit + (1 << 1);
             }
         } else {
@@ -54,8 +61,8 @@ void func(int *arr, int x, int y,
     // check left
     if (currY - 1 >= 0) {
         if (arr1[currX][currY-1]==1) {
-            if (visited[currX][currY-1] > *steps) {
-                visited[currX][currY-1] = *steps;
+            if (visited[currX][currY-1] > steps) {
+                visited[currX][currY-1] = steps;
                 tovisit = tovisit + 1;
             }
         } else {
@@ -65,22 +72,24 @@ void func(int *arr, int x, int y,
 
     // next place to check
 
-    if (*steps == 2)
-        return;
 
-    if (tovisit && (1<<3)!=0){
+
+    // if (steps == 2)
+        // return;
+
+    if ((tovisit & (1<<3))!=0){
         func(arr, x, y, dx, dy, v, currX - 1, currY, steps);
     }
 
-    if (tovisit && (1<<2)!=0){
+    if ((tovisit & (1<<2))!=0){
         func(arr, x, y, dx, dy, v, currX, currY + 1, steps);
     }
 
-    if (tovisit && (1<<1)!=0){
+    if ((tovisit & (1<<1))!=0){
         func(arr, x, y, dx, dy, v, currX + 1, currY, steps);
     }
 
-    if ((tovisit && 1) !=0){
+    if ((tovisit & 1) !=0){
         func(arr, x, y, dx, dy, v, currX, currY - 1, steps);
     }
 
@@ -123,7 +132,7 @@ int main() {
         cin >> arr[i];
         visited[i] = maxSteps;
     }
-    // visited[0] = 0;
+    visited[0] = 0;
     
     cout << "enter destination:\n";
     cin >> dx >> dy;
@@ -133,8 +142,7 @@ int main() {
         exit(0);
     }   
 
-    int *steps;
-    *steps = 0;
+    int steps = 0;
 
     func(arr, x, y, dx, dy, visited, 0, 0, steps);
 
@@ -142,7 +150,7 @@ int main() {
     printMe(arr, x,y);
     printMe(visited,x,y);
 
-    cout << "steps: " << *steps << "\n";
+    cout << "steps: " << visited[dx*y+dy] << "\n";
     cout << "done!\n";
 
 }
