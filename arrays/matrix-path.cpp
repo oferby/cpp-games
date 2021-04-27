@@ -72,11 +72,6 @@ void func(int *arr, int x, int y,
 
     // next place to check
 
-
-
-    // if (steps == 2)
-        // return;
-
     if ((tovisit & (1<<3))!=0){
         func(arr, x, y, dx, dy, v, currX - 1, currY, steps);
     }
@@ -126,7 +121,7 @@ int main() {
     int *arr = new int[x*y];
     int *visited = new int[x*y];
 
-    cout << "enter matrix:\n";
+    // cout << "enter matrix:\n";
     int maxSteps = x * y;
     for (int i = 0; i < x*y; i++ ) {
         cin >> arr[i];
@@ -134,7 +129,7 @@ int main() {
     }
     visited[0] = 0;
     
-    cout << "enter destination:\n";
+    // cout << "enter destination:\n";
     cin >> dx >> dy;
 
     if (dx == 0 && dy == 0) {
@@ -146,11 +141,11 @@ int main() {
 
     func(arr, x, y, dx, dy, visited, 0, 0, steps);
 
-    cout << "\n";
-    printMe(arr, x,y);
-    printMe(visited,x,y);
+    // cout << "\n";
+    // printMe(arr, x,y);
+    // printMe(visited,x,y);
 
     cout << "steps: " << visited[dx*y+dy] << "\n";
-    cout << "done!\n";
+    // cout << "done!\n";
 
 }
